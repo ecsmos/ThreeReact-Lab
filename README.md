@@ -1,58 +1,76 @@
-# 🧪 ThreeReact-Lab
+# ThreeReact-Lab ⚛️
 
-A high-performance experiment laboratory showcasing **Three.js**, **WebGPU**, and **BitECS** integrated with **React**.
+[**Live Demo**](https://ecsmos.github.io/ThreeReact-Lab/)
 
-This repository is a direct counterpart to [PixiVue-Lab](https://github.com/ecsmos/PixiVue-Lab), implementing the same simulations and visual effects using the React ecosystem.
+A high-performance monorepo for exploring cutting-edge web technologies, specifically focused on **WebGPU**, **Three.js**, and **Entity-Component-System (ECS)** patterns within the **React** ecosystem.
 
-## 🚀 Projects
+## 🌟 Overview
 
-### [🐇 Bunnymark](./apps/bunnies)
-A stress test rendering thousands of interactive bunnies in a deep space environment. 
-- **Tech**: React, Three.js (WebGPU), BitECS, TSL Shaders.
+ThreeReact-Lab is a "lab" project designed to test the limits of modern web graphics and state management. It demonstrates how to combine the declarative power of React and React Three Fiber with the raw performance of WebGPU and data-oriented ECS.
 
-### [🌲 Forest Simulation](./apps/forest)
-A tranquil forest environment with sunlight shafts and swaying foliage.
-- **Tech**: React, Three.js (WebGPU), BitECS, TSL Shaders.
+This project is a direct counterpart to [PixiVue-Lab](https://github.com/ecsmos/PixiVue-Lab), implementing the same simulations and visual effects using the React ecosystem.
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [React 19](https://react.dev/)
-- **Rendering**: [Three.js (WebGPURenderer)](https://threejs.org/) & [React Three Fiber](https://r3f.docs.pmnd.rs/)
-- **ECS**: [BitECS](https://github.com/NateTheGreatt/bitECS)
-- **State**: [Zustand](https://zustand-demo.pmnd.rs/)
-- **Build Tool**: [Vite](https://vitejs.dev/) & [Turborepo](https://turbo.build/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Core Engine**: [Three.js](https://threejs.org/) — Leveraging the latest WebGPU (via WebGPURenderer) capabilities.
+- **Rendering API**: **WebGPU** with custom **TSL** (Three Shading Language) shaders.
+- **ECS**: [BitECS](https://github.com/NateTheGreatt/bitECS) — A lightning-fast, data-oriented ECS for handling thousands of entities.
+- **Framework**: [React 19](https://react.dev/) & [React Three Fiber](https://r3f.docs.pmnd.rs/) — Reactive UI and declarative 3D scene management.
+- **Monorepo**: [Turbo](https://turbo.build/) + [Bun](https://bun.sh/) — Fast builds and efficient dependency management.
+- **Linter/Formatter**: [Biome](https://biomejs.dev/) — Next-generation toolchain for web projects.
 
-## 🏃 Getting Started
+## 📂 Project Structure
+
+```bash
+ThreeReact-Lab/
+├── apps/
+│   ├── bunnies/      # 🐰 Space-themed high-performance stress test
+│   └── forest/       # 🌲 Forest-themed simulation with sunlight shaders
+├── packages/         # Shared utilities and types
+├── .github/          # CI/CD workflows for multi-project deployment
+└── README.md         # This documentation
+```
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- [Bun](https://bun.sh/) installed.
-- A browser with **WebGPU** support (e.g., Chrome, Edge, or Firefox Nightly).
+- [Bun](https://bun.sh/) (v1.1.0 or higher)
+- A browser with [WebGPU support](https://caniuse.com/webgpu) (Chrome 113+, Edge 113+)
 
 ### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/ecsmos/ThreeReact-Lab.git
+cd ThreeReact-Lab
+
+# Install dependencies
 bun install
 ```
 
-### Development
+### Running Locally
 
 ```bash
-# Run all apps
+# Start all applications in development mode
 bun dev
 
-# Run specific app
-bun dev --filter bunnies
+# Run specific application
 bun dev --filter forest
 ```
 
-### Build
+## 🧪 Current Experiments
 
-```bash
-bun build
-```
+### 1. [Bunnies](https://ecsmos.github.io/ThreeReact-Lab/bunnies/) (apps/bunnies)
+A modern take on the classic "Bunnymark" in deep space.
+- **Theme**: Deep space, nebula, stars.
+- **Shaders**: Procedural space background, pulsing nebula glow on entities using TSL.
+
+### 2. [Forest](https://ecsmos.github.io/ThreeReact-Lab/forest/) (apps/forest)
+An organic-themed simulation exploring sunlight and wind effects.
+- **Theme**: Forest canopy, moss, sunlight shafts.
+- **Shaders**: Sunlight beams (sun shafts), wind-driven swaying animations using TSL.
 
 ## 📜 License
 
-MIT
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
