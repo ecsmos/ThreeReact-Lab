@@ -1,0 +1,93 @@
+name: Build and Deploy (ThreeReact-Lab)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy to GH Pages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Setup Bun 🍞
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies 📦
+        run: bun install
+
+      - name: Build All Projects 🚀
+        run: bun run build
+
+      - name: Prepare Deployment Directory 📂
+        run: |
+          mkdir -p deploy_dist
+          
+          # Copy Bunnies project
+          if [ -d "apps/bunnies/dist" ]; then
+            cp -r apps/bunnies/dist deploy_dist/bunnies
+          fi
+          
+          # Copy Forest project
+          if [ -d "apps/forest/dist" ]; then
+            cp -r apps/forest/dist deploy_dist/forest
+          fi
+          
+          # Create navigation root page
+          cat <<'HTML' > deploy_dist/index.html
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>ThreeReact Lab | WebGPU Experiments</title>
+              <style>
+                  :root { --primary: #61dafb; --bg: #20232a; --card: #282c34; --text: #ffffff; }
+                  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+                  .container { text-align: center; max-width: 600px; padding: 2rem; }
+                  h1 { color: var(--primary); font-size: 2.5rem; margin-bottom: 0.5rem; }
+                  p { opacity: 0.8; margin-bottom: 2rem; }
+                  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+                  .card { background: var(--card); padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; transition: transform 0.2s, border-color 0.2s; border: 2px solid transparent; }
+                  .card:hover { transform: translateY(-5px); border-color: var(--primary); }
+                  .icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+                  .title { font-weight: bold; font-size: 1.2rem; display: block; margin-bottom: 0.5rem; }
+                  .desc { font-size: 0.9rem; opacity: 0.7; }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <h1>ThreeReact Lab</h1>
+                  <p>A collection of high-performance WebGPU experiments using Three.js (WebGPU) and React.</p>
+                  <div class="grid">
+                      <a href="bunnies/" class="card">
+                          <span class="icon">🐰</span>
+                          <span class="title">Bunnies Space</span>
+                          <span class="desc">Three.js + TSL implementation of Bunnymark.</span>
+                      </a>
+                      <a href="forest/" class="card">
+                          <span class="icon">🌲</span>
+                          <span class="title">Forest Lab</span>
+                          <span class="desc">Three.js + TSL forest simulation.</span>
+                      </a>
+                  </div>
+              </div>
+          </body>
+          </html>
+          HTML
+
+      - name: Deploy to GitHub Pages 🚀
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy_dist
+          force_orphan: true
